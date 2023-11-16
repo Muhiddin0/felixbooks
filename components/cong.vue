@@ -1,6 +1,5 @@
 <template>
     <div></div>
-    <button>Submit</button>
 </template>
 <script>
 import Confetti from "vue-confetti/src/confetti.js";

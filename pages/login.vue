@@ -1,7 +1,6 @@
 <template>
     <div class="container flex justify-center items-center min-h-screen">
-        <form data-aos="fade-up" class="flex flex-col gap-8 w-[100%] sm:w-[530px] p-5 bg-white rounded-md shadow-md"
-            action="">
+        <form class="flex flex-col gap-8 w-[100%] sm:w-[530px] p-5 bg-white rounded-md shadow-md" action="">
 
             <h1 class="text-center text-4xl ">Login</h1>
 

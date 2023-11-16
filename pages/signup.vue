@@ -1,7 +1,6 @@
 <template>
     <div class="container flex justify-center items-center min-h-screen">
-        <form data-aos="fade-up" class="flex flex-col gap-8 w-[100%] sm:w-[530px] p-5 bg-white rounded-md shadow-md"
-            action="">
+        <form class="flex flex-col gap-8 w-[100%] sm:w-[530px] p-5 bg-white rounded-md shadow-md" action="">
 
             <h1 class="text-center text-4xl ">Signup</h1>
 
@@ -213,25 +212,6 @@ export default {
 </script>
 
 <style scoped>
-.loading {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    border-radius: 16px;
-    display: none;
-    @apply bg-indigo-500;
-}
-
-.load .loading {
-    display: flex;
-    cursor: not-allowed;
-}
-
 .error div {
     border: 1px solid red;
 }

@@ -1,13 +1,14 @@
 <template>
-    <div ref="card" class="flex flex-col justify-center items-center gap-3 p-5 max-w-[300px] bg-white rounded-md shadow-md">
-        <img height="200px" class="w-[150px] rounded-md" :src="item.book.image" alt="">
-        <b class="text-xl text-center">{{ item.book.title }}</b>
-        <p>{{ item.book.author }}</p>
+    <div class="flex flex-col justify-center items-center gap-3 p-5 max-w-[300px] bg-white rounded-md shadow-md">
+        <img height="200px" class="w-[150px] rounded-md" :src="item.image" alt="">
+        <b class="text-xl text-center">{{ item.title }}</b>
+        <p>{{ item.author }}</p>
 
         <div class="flex flex-wrap gap-3 justify-between">
-            <button @click="(e) => deleteBook(e, item.book.id)"
+            <button @click="(e) => addBook(e, item.id)"
                 class="relative p-2 border-indigo-500 border-[1px] rounded-md text-indigo-500">
-                Remove
+                Add library
+
                 <span class="loading">
                     <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,8 +21,7 @@
                     </svg>
                 </span>
             </button>
-            <p class="flex justify-center items-center px-4  text-white bg-indigo-500 rounded-md">{{ item.book.pages }}
-                pages</p>
+            <a class=" p-2 text-white bg-indigo-500 rounded-md" :href="item.url">Read book</a>
         </div>
     </div>
 </template>
@@ -33,21 +33,16 @@ import { useBook } from '~/stores/books';
 export default {
     data() {
         return {
-            user: ''
-        }
-    },
-    beforeMount() {
-        if (process.client) {
-            var user = JSON.parse(window.localStorage.getItem('user'))
-            this.user = user
-            console.log(user);
+            user: null
         }
     },
     mounted() {
-        console.log(this.item);
+        if (process.client) {
+            var user = JSON.parse(window.localStorage.getItem('user'))
+            this.user = user
+        }
     },
     methods: {
-
         async refreshBooks() {
 
             const bookStore = useBook()
@@ -61,39 +56,6 @@ export default {
             if (data) {
                 bookStore.setBook(data)
             }
-        },
-
-        async deleteBook(e, id) {
-
-            let button = e.target
-            button.setAttribute('disabled', true)
-            button.classList.add('loadmini')
-
-            const messageStore = useMessageStore()
-
-            let headers = {
-                Key: this.user.key,
-                Sign: Secret("DELETE", "/books/" + id, "", this.user.secret),
-            };
-
-            try {
-                const response = await http.delete("/books/" + id, { headers: headers });
-                messageStore.addMessage({
-                    head: 'Succes',
-                    body: "This Book remove your library"
-                })
-                this.refreshBooks()
-
-            } catch {
-                messageStore.addMessage({
-                    head: 'Succes',
-                    body: "This Book remove your library"
-                })
-            }
-
-            button.removeAttribute('disabled', true)
-            button.classList.remove('loadmini')
-
         },
         async addBook(e, id) {
 
@@ -119,6 +81,7 @@ export default {
                     head: 'Succesfuly',
                     body: "Book succesfully add your library"
                 })
+                this.refreshBooks()
             } catch {
                 messageStore.addMessage({
                     head: 'Faill',
@@ -130,7 +93,7 @@ export default {
             button.classList.remove('loadmini')
         }
     },
-    props: ['item', 'index']
+    props: ['item']
 }
 </script>
 
