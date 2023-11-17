@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col justify-center items-center gap-3 p-5 max-w-[300px] bg-white rounded-md shadow-md">
+    <div class="flex flex-col justify-center items-center gap-3 p-5 w-[250px] bg-white rounded-md shadow-md">
         <img height="200px" class="w-[150px] rounded-md" :src="item.image" alt="">
-        <b class="text-xl text-center">{{ item.title }}</b>
+        <b class="text-xl text-center font-[cursive]">{{ item.title }}</b>
         <p>{{ item.author }}</p>
 
         <div class="flex flex-wrap gap-3 justify-between">

@@ -1,5 +1,6 @@
 <template>
-    <div ref="card" class="flex flex-col justify-center items-center gap-3 p-5 max-w-[300px] bg-white rounded-md shadow-md">
+    <div ref="card"
+        class="flex flex-col justify-center items-center gap-3 p-5 w-[100%] xsm:w-[300px] bg-white rounded-md shadow-md">
         <img height="200px" class="w-[150px] rounded-md" :src="item.book.image" alt="">
         <b class="text-xl text-center">{{ item.book.title }}</b>
         <p>{{ item.book.author }}</p>
@@ -40,11 +41,7 @@ export default {
         if (process.client) {
             var user = JSON.parse(window.localStorage.getItem('user'))
             this.user = user
-            console.log(user);
         }
-    },
-    mounted() {
-        console.log(this.item);
     },
     methods: {
 

@@ -1,4 +1,6 @@
 <template>
+    <WindowLoader v-if="!page_load" />
+
     <!-- searching -->
     <section v-if="searchbook.book.status == 'found'">
         <div class="container flex flex-wrap justify-around gap-5">
@@ -22,10 +24,7 @@
     <EmptyUserBooks v-else-if="!books.books.values.length && searchbook.book.status == 'notsearch'" />
 
     <!-- messages -->
-    <div class="fixed flex flex-col gap-3 bottom-0 z-50 p-3 w-[320px] " v-for="message, index in store.messages">
-        <Message :message="message" :index="index" />
-    </div>
-
+    <MessageBox />
 
     <!-- congratulations -->
     <cong v-if="cong.status" />
@@ -36,7 +35,6 @@
 
 <script>
 import bg from '~/assets/images/bg.svg'
-import { useMessageStore } from '~/stores/message'
 import { useCong } from '~/stores/cong'
 import { useSearchBook } from '~/stores/searchBook'
 import { useBook } from '~/stores/books'
@@ -45,35 +43,37 @@ import http from '~/services/http/init'
 export default {
     async beforeCreate() {
         if (process.client) {
-            const bookStore = useBook()
-            let user = JSON.parse(window.localStorage.getItem('user'))
+            const bookStore = useBook();
+            let user = JSON.parse(window.localStorage.getItem("user"));
 
             if (!user) {
-                this.$router.push('signup/')
-                return
+                this.$router.push("signup/");
+                return;
             }
-
             const headers = {
                 Key: user.key,
                 Sign: Secret("GET", "/books", "", user.secret),
             };
-            const response = await http.get("/books", { headers: headers })
-            let data = response.data.data
+            const response = await http.get("/books", { headers: headers });
+            let data = response.data.data;
             if (data) {
-                bookStore.setBook(data)
+                bookStore.setBook(data);
             }
-            this.loading_books = false
+            this.loading_books = false;
         }
     },
     data() {
         return {
             bg,
-            store: useMessageStore(),
+            page_load: false,
             cong: useCong(),
             searchbook: useSearchBook(),
             books: useBook(),
             loading_books: true
-        }
+        };
+    },
+    mounted() {
+        this.page_load = true
     }
 }
 </script>

@@ -30,9 +30,12 @@
                     <Icon size="24px" name="material-symbols-light:notifications-outline-sharp" />
                     <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
                 </button>
-                <div class="profile-icon">
+                <div class="profile-icon bg-red-500">
                     <img :src="avatar" alt="">
-                    <ul class="absolute -bottom-10 right-0 bg-white shadow-lg p-2 rounded-md hidden">
+                    <ul class="absolute flex-col gap-2 top-[35px] right-0 bg-white shadow-lg p-2 rounded-md hidden">
+                        <li>
+                            <!-- <p class="text">{{ user.email }}</p> -->
+                        </li>
                         <li>
                             <button @click="logout" class="text-red-500">Logout</button>
                         </li>
@@ -49,9 +52,9 @@
                 <p class="text-white text-center">Your task today</p>
             </div>
             <div class="flex flex-col sm:flex-row justify-center items-center gap-3 flex-grow-[1] lg:flex-grow-[0]">
-                <label ref="isbn-label" class="p-3 bg-white shadow-md rounded-md" for="">
+                <label ref="isbn-label" class="flex p-3 bg-white shadow-md rounded-md" for="">
                     <input @keydown="" ref="isbn" v-model="isbn" class=" outline-none  w-[100%] sm:w-[320px]"
-                        placeholder="Enter isbn" type="text">
+                        placeholder="Search by book name or isbn id" type="text">
                     <button @click="clearSearch()" :style="`visibility: ${!isbn ? 'hidden' : 'visible'};`">
                         <Icon size="24px" name="material-symbols-light:cancel-outline" />
                     </button>
@@ -95,6 +98,14 @@ export default {
             logo,
             avatar,
             books: useBook(),
+            user: null
+        }
+    },
+    created() {
+        if (process.client) {
+            let user = JSON.parse(window.localStorage.getItem('user'))
+            this.user = user
+            console.log(this.user);
         }
     },
     methods: {
@@ -133,8 +144,6 @@ export default {
             const response = await axios.get(url)
             let data = response.data.books
 
-            console.log(data);
-
             if (data) {
                 searchBookStore.setBook({
                     status: 'found',
@@ -145,8 +154,6 @@ export default {
                     status: 'notfound'
                 })
             }
-
-            console.log(searchBookStore.book);
 
             // un disabled
             button.removeAttribute('disabled', true)
@@ -174,7 +181,7 @@ export default {
 }
 
 .profile-icon:hover ul {
-    display: block;
+    display: flex;
 }
 
 .profile-icon img {

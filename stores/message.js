@@ -8,10 +8,13 @@ export const useMessageStore = defineStore("messages", () => {
   function deleteMessage(index) {
     messages.value.splice(index, 1);
   }
-
+  function clear() {
+    messages.value = [];
+  }
   return {
     messages,
     addMessage,
     deleteMessage,
+    clear,
   };
 });

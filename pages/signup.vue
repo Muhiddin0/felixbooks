@@ -85,9 +85,7 @@
         </form>
     </div>
 
-    <div class="fixed flex flex-col gap-3 bottom-0 z-50 p-3 w-[320px] " v-for="message, index in store.messages">
-        <Message :message="message" :index="index" />
-    </div>
+    <MessageBox />
 
     <div class="bg" :style="{ background: `url(${bg})` }"></div>
 </template>
@@ -119,7 +117,6 @@ export default {
     },
     methods: {
         removeError(item) {
-            console.log(item);
             this.$refs[item].classList.remove('error')
         },
         formValid() {
